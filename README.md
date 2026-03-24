@@ -2,12 +2,12 @@
 
 > Keep track of lowest training loss & validation loss, and generated output (1000 tokens) for each iteration
 
-1. Basic Bigram Language Model + Character level tokeniser
+1. [DONE] Basic Bigram Language Model + Character level tokeniser
     - Predict the next token by using only the last token before it.
-2. Previous tokens as Bag-of-words (BOW) all have equal weights
+2. [DONE] Previous tokens as Bag-of-words (BOW) all have equal weights
     - Every token in the context that is before the target token to be predicted, has equal attention weights.
-3. Add single head self-attention mechanism
-4. Include encoded position embedding
+3. [DONE] Add single head self-attention mechanism
+4. [DONE] Include encoded position embedding
 5. Add multiple heads of self-attention & concatenate the results
 6. Add feed forward layer
 7. Sequentially repeat a few blocks containing a multi-head attention layer and a feed forward layer
