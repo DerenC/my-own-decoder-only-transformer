@@ -8,7 +8,7 @@
     - Every token in the context that is before the target token to be predicted, has equal attention weights.
 3. [DONE] Add single head self-attention mechanism
 4. [DONE] Include encoded position embedding
-5. Add multiple heads of self-attention & concatenate the results
+5. [DONE] Add multiple heads of self-attention & concatenate the results
 6. Add feed forward layer
 7. Sequentially repeat a few blocks containing a multi-head attention layer and a feed forward layer
 8. Add residual connection
