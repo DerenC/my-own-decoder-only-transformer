@@ -80,7 +80,7 @@ class SingleHeadSelfAttentionModel(nn.Module):
             # generate the next sequence one by one
 
         for _ in range(num_max_new_tokens):
-            # Get the predictions
+            # Crop idx to the last block_size tokens
             logits, __ = self(idx[:, -block_size:])  # loss is ignored during inference
             # Focus on the logits of the last time step
             logits = logits[:, -1, :]   # Shape: (B, T, C) -> (B, C)
