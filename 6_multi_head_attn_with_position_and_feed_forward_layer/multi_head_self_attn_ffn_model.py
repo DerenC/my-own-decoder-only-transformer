@@ -59,12 +59,13 @@ class FeedForward(nn.Module):
 
 class MultiHeadAttnWithFFN(nn.Module):
 
-    def __init__(self, vocab_size, n_emb, head_size, block_size):
+    def __init__(self, vocab_size, n_emb, block_size):
         super().__init__()
         # Each token directly reads off the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(vocab_size, n_emb)
         self.position_embedding_table = nn.Embedding(block_size, n_emb)
-        self.self_attention_heads = MultiHeadAttention(4, n_emb//4, n_emb, block_size)
+        num_of_head = 4
+        self.self_attention_heads = MultiHeadAttention(num_of_head, n_emb//num_of_head, n_emb, block_size)
             # i.e. embedding dimension is 32 => 4 heads of 8-dimensional self-attention
         self.feed_forward = FeedForward(n_emb)
             # This layer gives the tokens time to think on what they found from the other tokens, on their own
