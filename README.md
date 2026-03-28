@@ -10,7 +10,7 @@
 4. [DONE] Include encoded position embedding
 5. [DONE] Add multiple heads of self-attention & concatenate the results
 6. [DONE] Add feed forward layer
-7. Sequentially repeat a few blocks containing a multi-head attention layer and a feed forward layer
+7. [DONE] Sequentially repeat a few blocks containing a multi-head attention layer and a feed forward layer
 8. Add residual connection
 9. Add layer normalizations before inputting to modules
 10. Add dropout
