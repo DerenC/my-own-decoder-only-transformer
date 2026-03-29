@@ -12,7 +12,7 @@
 6. [DONE] Add feed forward layer
 7. [DONE] Sequentially repeat a few blocks containing a multi-head attention layer and a feed forward layer
     - This is when the neural network gets too deep and suffers from optimization issue.
-8. 1st Optimization: Add residual connection
+8. [DONE] 1st Optimization: Add residual connection
 9. Add layer normalizations before inputting to modules
 10. Add dropout
 11. Scale up the modeL by increasing the relevant hyperparamaters
