@@ -59,8 +59,9 @@ def estimate_loss(eval_iters):
 x_batch, y_batch = get_batch("train")
 
 ## TRAINING THE MODEL
+num_of_heads = 4
 num_of_blocks = 6
-model = ScalableMultiTransformerBlocks(vocab_size, emb_dim, block_size, num_of_blocks)
+model = ScalableMultiTransformerBlocks(vocab_size, emb_dim, block_size, num_of_heads, num_of_blocks)
     # Letting embedding size be head size also
 logits, loss = model(x_batch, y_batch)
 
