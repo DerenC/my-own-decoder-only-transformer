@@ -32,6 +32,8 @@ num_of_heads = 4
 num_of_blocks = 6
 dropout = 0.2
 
+learning_rate = 3e-4
+
 n_iters = 10000
 eval_interval = 500
 
@@ -72,7 +74,7 @@ model = ScalableMultiTransformerBlocks(vocab_size, emb_dim, block_size, num_of_h
 logits, loss = model(x_batch, y_batch)
 
 ## MODEL TRAINING
-optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
+optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
     # Optimizer takes the gradients and update the parameters using the gradients
     # Usually recommended lr is 1e-3 or 1e-4. But for smaller network like this, it can be higher like 1e-2
 
