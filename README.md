@@ -14,7 +14,7 @@
     - This is when the neural network gets too deep and suffers from optimization issue.
 8. [DONE] 1st Optimization: Add residual connection
 9. [DONE] 2nd Optimization: Add layer normalizations before inputting to modules (pre-norm formulation)
-10. Add dropout
+10. Add dropout as a regularization technique before scaling up the model
 11. Scale up the model by increasing the relevant hyperparamaters
 12. Use GELU instead of ReLU (may not matter as it may just be for loading checkpoints)
 
