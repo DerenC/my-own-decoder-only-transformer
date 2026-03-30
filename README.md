@@ -15,7 +15,7 @@
 8. [DONE] 1st Optimization: Add residual connection
 9. [DONE] 2nd Optimization: Add layer normalizations before inputting to modules (pre-norm formulation)
 10. Add dropout as a regularization technique before scaling up the model
-11. Scale up the model by increasing the number of transformer blocks
+11. Scale up the model by increasing the number of transformer blocks and other hyperparameters
 12. Use GELU instead of ReLU (may not matter as it may just be for loading checkpoints)
 
 Other variables:
