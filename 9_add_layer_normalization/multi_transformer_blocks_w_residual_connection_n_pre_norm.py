@@ -89,8 +89,8 @@ class MultiTransformerBlocksWithResidualConnectionNLayerNorm(nn.Module):
             TransformerBlockWithResidualConnection(n_emb, num_of_head, block_size),
             TransformerBlockWithResidualConnection(n_emb, num_of_head, block_size),
             TransformerBlockWithResidualConnection(n_emb, num_of_head, block_size),
-            nn.LayerNorm(n_emb),
         )
+        self.layer_norm = nn.LayerNorm(n_emb)
         self.lang_modelling_head = nn.Linear(n_emb, vocab_size)
 
     # B is Batch size
@@ -105,6 +105,7 @@ class MultiTransformerBlocksWithResidualConnectionNLayerNorm(nn.Module):
         position_embs = self.position_embedding_table(torch.arange(T))  # Shape: (T, n_emb)
         x = token_embs + position_embs
         x = self.transformer_blocks(x)
+        x = self.layer_norm(x)
         logits = self.lang_modelling_head(x)  # Shape: (B, T, vocab_size)
 
         if targets is None: # During inference
