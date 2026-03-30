@@ -1,5 +1,5 @@
 import torch
-from scalable_multi_transformer_blocks import MultiTransformerBlocksWithResidualConnLayerNormDropout
+from scalable_multi_transformer_blocks import ScalableMultiTransformerBlocks
 
 with open("data/tiny_shakespeare.txt", 'r', encoding='utf-8') as f:
     text = f.read()
@@ -59,7 +59,7 @@ def estimate_loss(eval_iters):
 x_batch, y_batch = get_batch("train")
 
 ## TRAINING THE MODEL
-model = MultiTransformerBlocksWithResidualConnLayerNormDropout(vocab_size, emb_dim, block_size)
+model = ScalableMultiTransformerBlocks(vocab_size, emb_dim, block_size)
     # Letting embedding size be head size also
 logits, loss = model(x_batch, y_batch)
 

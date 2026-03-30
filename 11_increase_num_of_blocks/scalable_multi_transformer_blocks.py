@@ -37,7 +37,7 @@ class Head(nn.Module):
         output = weight @ value # Shape: (B, T, T) @ (B, T, C) -> (B, T, C)
         return output
 
-class MultiHeadAttentionWithResidualConnNDropout(nn.Module):
+class MultiHeadAttention(nn.Module):
     ''' multiple heads of self-attention in parallel '''
 
     def __init__(self, num_heads, head_size, emb_dim, block_size, dropout=0.2):
@@ -66,14 +66,14 @@ class FeedForwardWithResidualConnNDropout(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-class TransformerBlockWithResidualConnLayerNormDropout(nn.Module):
+class TransformerBlock(nn.Module):
     ''' Transformer block '''
 
     def __init__(self, n_emb, n_head, block_size):
         super().__init__()
         head_size = n_emb // n_head
         self.layer_norm_1 = nn.LayerNorm(n_emb) # Add layer normalization
-        self.multi_head_attn = MultiHeadAttentionWithResidualConnNDropout(n_head, head_size, n_emb, block_size)
+        self.multi_head_attn = MultiHeadAttention(n_head, head_size, n_emb, block_size)
         self.layer_norm_2 = nn.LayerNorm(n_emb) # Add layer normalization
         self.feed_forward = FeedForwardWithResidualConnNDropout(n_emb)
 
@@ -82,7 +82,7 @@ class TransformerBlockWithResidualConnLayerNormDropout(nn.Module):
         x = x + self.feed_forward(self.layer_norm_2(x))    # Add pre-normalization
         return x
 
-class MultiTransformerBlocksWithResidualConnLayerNormDropout(nn.Module):
+class ScalableMultiTransformerBlocks(nn.Module):
 
     def __init__(self, vocab_size, n_emb, block_size):
         super().__init__()
@@ -91,9 +91,9 @@ class MultiTransformerBlocksWithResidualConnLayerNormDropout(nn.Module):
         self.position_embedding_table = nn.Embedding(block_size, n_emb)
         num_of_head = 4
         self.transformer_blocks = nn.Sequential(
-            TransformerBlockWithResidualConnLayerNormDropout(n_emb, num_of_head, block_size),
-            TransformerBlockWithResidualConnLayerNormDropout(n_emb, num_of_head, block_size),
-            TransformerBlockWithResidualConnLayerNormDropout(n_emb, num_of_head, block_size),
+            TransformerBlock(n_emb, num_of_head, block_size),
+            TransformerBlock(n_emb, num_of_head, block_size),
+            TransformerBlock(n_emb, num_of_head, block_size),
         )
         self.layer_norm = nn.LayerNorm(n_emb)
         self.lang_modelling_head = nn.Linear(n_emb, vocab_size)
