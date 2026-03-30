@@ -42,7 +42,7 @@ class MultiHeadAttention(nn.Module):
 
     def __init__(self, num_heads, head_size, emb_dim, block_size, dropout=0.2):
         super().__init__()
-        self.heads = nn.ModuleList([Head(emb_dim, head_size, block_size) for _ in range(num_heads)])
+        self.heads = nn.ModuleList([Head(emb_dim, head_size, block_size, dropout) for _ in range(num_heads)])
         self.projection = nn.Linear(emb_dim, emb_dim)   # Needed for residual connection
         self.dropout = nn.Dropout(dropout)
 
@@ -69,13 +69,13 @@ class FeedForwardWithResidualConnNDropout(nn.Module):
 class TransformerBlock(nn.Module):
     ''' Transformer block '''
 
-    def __init__(self, n_emb, n_head, block_size):
+    def __init__(self, n_emb, n_head, block_size, dropout=0.2):
         super().__init__()
         head_size = n_emb // n_head
         self.layer_norm_1 = nn.LayerNorm(n_emb) # Add layer normalization
-        self.multi_head_attn = MultiHeadAttention(n_head, head_size, n_emb, block_size)
+        self.multi_head_attn = MultiHeadAttention(n_head, head_size, n_emb, block_size, dropout)
         self.layer_norm_2 = nn.LayerNorm(n_emb) # Add layer normalization
-        self.feed_forward = FeedForwardWithResidualConnNDropout(n_emb)
+        self.feed_forward = FeedForwardWithResidualConnNDropout(n_emb, dropout)
 
     def forward(self, x):
         x = x + self.multi_head_attn(self.layer_norm_1(x)) # Add pre-normalization
@@ -84,13 +84,13 @@ class TransformerBlock(nn.Module):
 
 class ScalableMultiTransformerBlocks(nn.Module):
 
-    def __init__(self, vocab_size, n_emb, block_size, num_of_heads, n_blocks=3):
+    def __init__(self, vocab_size, n_emb, block_size, num_of_heads, n_blocks=3, dropout=0.2):
         super().__init__()
         # Each token directly reads off the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(vocab_size, n_emb)
         self.position_embedding_table = nn.Embedding(block_size, n_emb)
         self.transformer_blocks = nn.Sequential(
-            *[TransformerBlock(n_emb, num_of_heads, block_size) for _ in range(n_blocks)]
+            *[TransformerBlock(n_emb, num_of_heads, block_size, dropout) for _ in range(n_blocks)]
         )
         self.layer_norm = nn.LayerNorm(n_emb)
         self.lang_modelling_head = nn.Linear(n_emb, vocab_size)

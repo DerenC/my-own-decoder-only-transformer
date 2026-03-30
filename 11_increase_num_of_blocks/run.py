@@ -30,6 +30,7 @@ batch_size = 32
 emb_dim = 32
 num_of_heads = 4
 num_of_blocks = 6
+dropout = 0.2
 
 n_iters = 10000
 eval_interval = 500
@@ -66,7 +67,7 @@ def estimate_loss(eval_iters):
 x_batch, y_batch = get_batch("train")
 
 ## TRAINING THE MODEL
-model = ScalableMultiTransformerBlocks(vocab_size, emb_dim, block_size, num_of_heads, num_of_blocks)
+model = ScalableMultiTransformerBlocks(vocab_size, emb_dim, block_size, num_of_heads, num_of_blocks, dropout)
     # Letting embedding size be head size also
 logits, loss = model(x_batch, y_batch)
 
