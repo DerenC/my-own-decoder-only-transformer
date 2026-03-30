@@ -23,9 +23,16 @@ train_data = data[:train_valid_split_idx]
 valid_data = data[train_valid_split_idx:]
 
 torch.manual_seed(1337)
+
+## HYPERPARAMETER CONFIGURATION
 block_size = 8
 batch_size = 32
 emb_dim = 32
+num_of_heads = 4
+num_of_blocks = 6
+
+n_iters = 10000
+eval_interval = 500
 
 def get_batch(training_flag):
     # generate a small batch of data of inputs x and targets y
@@ -59,8 +66,6 @@ def estimate_loss(eval_iters):
 x_batch, y_batch = get_batch("train")
 
 ## TRAINING THE MODEL
-num_of_heads = 4
-num_of_blocks = 6
 model = ScalableMultiTransformerBlocks(vocab_size, emb_dim, block_size, num_of_heads, num_of_blocks)
     # Letting embedding size be head size also
 logits, loss = model(x_batch, y_batch)
@@ -70,9 +75,6 @@ optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
     # Optimizer takes the gradients and update the parameters using the gradients
     # Usually recommended lr is 1e-3 or 1e-4. But for smaller network like this, it can be higher like 1e-2
 
-batch_size = 32
-n_iters = 10000
-eval_interval = 500
 for iter in range(n_iters):
 
     if iter % eval_interval == 0:
