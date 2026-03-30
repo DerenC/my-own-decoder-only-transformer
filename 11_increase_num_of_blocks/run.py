@@ -25,17 +25,31 @@ valid_data = data[train_valid_split_idx:]
 torch.manual_seed(1337)
 
 ## HYPERPARAMETER CONFIGURATION
-block_size = 8
-batch_size = 32
-emb_dim = 32
-num_of_heads = 4
+block_size = 256
+batch_size = 20     # Originally suggested: 64
+emb_dim = 384
+num_of_heads = 6
 num_of_blocks = 6
 dropout = 0.2
 
 learning_rate = 3e-4
 
-n_iters = 10000
-eval_interval = 500
+n_iters = 200       # Originally suggested: 5000
+eval_interval = 100 # Originally suggested: 500
+
+# Old hyperparameters config
+# block_size = 8
+# batch_size = 32
+# emb_dim = 32
+
+# num_heads = 4
+# num_of_blocks = 6
+# dropout = 0.2
+
+# learning_rate = 1e-3
+
+# n_iters = 10000
+# eval_interval = 500
 
 def get_batch(training_flag):
     # generate a small batch of data of inputs x and targets y
