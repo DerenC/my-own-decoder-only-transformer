@@ -61,7 +61,7 @@ class FeedForwardWithResidualConnection(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-class TransformerBlockWithResidualConnection(nn.Module):
+class TransformerBlockWithResidualConnectionNLayerNorm(nn.Module):
     ''' Transformer block '''
 
     def __init__(self, n_emb, n_head, block_size):
@@ -86,9 +86,9 @@ class MultiTransformerBlocksWithResidualConnectionNLayerNorm(nn.Module):
         self.position_embedding_table = nn.Embedding(block_size, n_emb)
         num_of_head = 4
         self.transformer_blocks = nn.Sequential(
-            TransformerBlockWithResidualConnection(n_emb, num_of_head, block_size),
-            TransformerBlockWithResidualConnection(n_emb, num_of_head, block_size),
-            TransformerBlockWithResidualConnection(n_emb, num_of_head, block_size),
+            TransformerBlockWithResidualConnectionNLayerNorm(n_emb, num_of_head, block_size),
+            TransformerBlockWithResidualConnectionNLayerNorm(n_emb, num_of_head, block_size),
+            TransformerBlockWithResidualConnectionNLayerNorm(n_emb, num_of_head, block_size),
         )
         self.layer_norm = nn.LayerNorm(n_emb)
         self.lang_modelling_head = nn.Linear(n_emb, vocab_size)
