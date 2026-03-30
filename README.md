@@ -16,7 +16,7 @@
 9. [DONE] 2nd Optimization: Add layer normalizations before inputting to modules (pre-norm formulation)
 10. [DONE] Add dropout as a regularization technique before scaling up the model
 11. [DONE] Scale up the model by increasing the number of transformer blocks and other hyperparameters
-12. Use GELU instead of ReLU (may not matter as it may just be for loading checkpoints)
+12. [DONE] Use GELU instead of ReLU (may not matter as it may just be for loading checkpoints)
 
 Other variables:
 - Optimizer used (AdamW & SGD)
