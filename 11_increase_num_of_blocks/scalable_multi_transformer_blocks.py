@@ -84,16 +84,14 @@ class TransformerBlock(nn.Module):
 
 class ScalableMultiTransformerBlocks(nn.Module):
 
-    def __init__(self, vocab_size, n_emb, block_size):
+    def __init__(self, vocab_size, n_emb, block_size, n_blocks=3):
         super().__init__()
         # Each token directly reads off the logits for the next token from a lookup table
         self.token_embedding_table = nn.Embedding(vocab_size, n_emb)
         self.position_embedding_table = nn.Embedding(block_size, n_emb)
         num_of_head = 4
         self.transformer_blocks = nn.Sequential(
-            TransformerBlock(n_emb, num_of_head, block_size),
-            TransformerBlock(n_emb, num_of_head, block_size),
-            TransformerBlock(n_emb, num_of_head, block_size),
+            *[TransformerBlock(n_emb, num_of_head, block_size) for _ in range(n_blocks)]
         )
         self.layer_norm = nn.LayerNorm(n_emb)
         self.lang_modelling_head = nn.Linear(n_emb, vocab_size)
